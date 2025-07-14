@@ -1,16 +1,23 @@
 # sensor_if_viewer
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## functions
+- 設定機能
+  - 受信ポート
+  - 識別名称
+  - 表示項目
+- 受信機能
+  - 受信したメッセージをパース
+- 表示機能
+  - マップ上に受信したメッセージから以下の情報を描画
+    - センサ設置位置
+    - 各種センサ情報
+      - エラー情報
+      - センサ種別
+      - 検知可能種別
+      - センサステータス
+    - 検出オブジェクト
+      - 位置
+      - 速度
+      - 角度
+      - トラッキングステータス
+    - 監視範囲
