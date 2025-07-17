@@ -4,18 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sensor_if_viewer/settings/bloc/setting_bloc.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
 
-@override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Setting')),
-      body: BlocBuilder<SettingBloc, SettingState>(
-        builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.settings.length,
-            itemBuilder: (context, index) {
-              final item = state.settings[index];
+class _SettingPageState extends State<SettingPage> {
+  bool _initialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if(!_initialized) {
+      _initialized = true;
+
+      // execute when first redering
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<SettingBloc>().add(InitializeSetting());
+      });
+    }
+  }
+
+
+  @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Setting')),
+        body: BlocBuilder<SettingBloc, SettingState>(
+          builder: (context, state) {
+            if (state.loaded) {
+              final item = state.setting;
               return Card(
                 margin: const EdgeInsets.all(8),
                 child: Padding(
@@ -33,23 +52,7 @@ class SettingPage extends StatelessWidget {
                                 final port = int.tryParse(val) ?? 0;
                                 context.read<SettingBloc>().add(
                                       UpdateSetting(
-                                        index: index,
                                         newItem: item.copyWith(port: port),
-                                      ),
-                                    );
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: TextFormField(
-                              initialValue: item.name,
-                              decoration: const InputDecoration(labelText: 'Sensor Identifier'),
-                              onChanged: (val) {
-                                context.read<SettingBloc>().add(
-                                      UpdateSetting(
-                                        index: index,
-                                        newItem: item.copyWith(name: val),
                                       ),
                                     );
                               },
@@ -79,7 +82,6 @@ class SettingPage extends StatelessWidget {
                               onChanged: (val) {
                                 context.read<SettingBloc>().add(
                                       UpdateSetting(
-                                        index: index,
                                         newItem: item.copyWith(showSensor: val ?? false),
                                       ),
                                     );
@@ -93,7 +95,6 @@ class SettingPage extends StatelessWidget {
                               onChanged: (val) {
                                 context.read<SettingBloc>().add(
                                       UpdateSetting(
-                                        index: index,
                                         newItem: item.copyWith(showObject: val ?? false),
                                       ),
                                     );
@@ -102,28 +103,18 @@ class SettingPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () {
-                            context.read<SettingBloc>().add(RemoveSetting(index));
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),
               );
-            },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.read<SettingBloc>().add(AddSetting()),
-        icon: const Icon(Icons.add),
-        label: const Text('Add'),
-      ),
-    );
-  }
+            } else {
+              return const Center(
+                child: CircularProgressIndicator()
+              );
+            }
+
+          },
+        ),
+      );
+    }
 }

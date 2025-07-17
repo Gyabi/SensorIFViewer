@@ -1,38 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sensor_if_viewer/settings/bloc/setting_model.dart';
+import 'package:sensor_if_viewer/settings/repository/setting_repository.dart';
 
 abstract class SettingEvent {}
 
-class AddSetting extends SettingEvent {}
-class RemoveSetting extends SettingEvent {
-  final int index;
-  RemoveSetting(this.index);
+class UpdateSetting extends SettingEvent {
+  final SettingItem newItem;
+  UpdateSetting({required this.newItem});
 }
 
-class UpdateSetting extends SettingEvent {
-  final int index;
-  final SettingItem newItem;
-  UpdateSetting({required this.index, required this.newItem});
-}
+class InitializeSetting extends SettingEvent {}
 
 class SettingState {
-  final List<SettingItem> settings;
-  SettingState({required this.settings});
+  final bool loaded;
+  final SettingItem setting;
+  SettingState({required this.setting, this.loaded = false});
 }
 
 class SettingBloc extends Bloc<SettingEvent, SettingState> {
-  SettingBloc() : super(SettingState(settings: [])) {
-    on<AddSetting>((event, emit) {
-      emit(SettingState(settings: [...state.settings, SettingItem(port: 0, name: '')]));
+  final SettingRepository repository;
+  SettingBloc({required this.repository}) : super(SettingState(setting: SettingItem(port: 0))) {
+    on<UpdateSetting>((event, emit) async {
+      await repository.saveSetting(event.newItem);
+      emit(SettingState(setting: event.newItem, loaded: true));
+      print('update');
     });
-    on<RemoveSetting>((event, emit) {
-      final newList = [...state.settings]..removeAt(event.index);
-      emit(SettingState(settings: newList));
-    });
-    on<UpdateSetting>((event, emit) {
-      final updatedList = [...state.settings];
-      updatedList[event.index] = event.newItem;
-      emit(SettingState(settings: updatedList));
+
+    on<InitializeSetting>((event, emit) async {
+      final initialData = await repository.loadSetting();
+      add(UpdateSetting(newItem: initialData));
+      print('init');
     });
   }
 }
