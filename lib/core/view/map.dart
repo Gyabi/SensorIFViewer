@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -17,19 +16,25 @@ class CoreMap extends StatelessWidget {
       ),
       children: [
         TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.jp/{z}/{x}/{y}.png', // For demonstration only
-          userAgentPackageName: 'com.sample.sensor_if_viewer', // Add your app identifier
+          urlTemplate:
+              'https://tile.openstreetmap.jp/{z}/{x}/{y}.png', // For demonstration only
+          userAgentPackageName:
+              'com.sample.sensor_if_viewer', // Add your app identifier
         ),
         // BlocBuilderでMarkerLayerだけリビルド
         BlocBuilder<MarkerBloc, MarkerState>(
           builder: (context, state) {
             return MarkerLayer(
-              markers: state.plotData.map((d) => Marker(
-                point: LatLng(d.latitude, d.longitude),
-                child: const Icon(Icons.location_on, color: Colors.red),
-                width: 40,
-                height: 40,
-              )).toList(),
+              markers: state.plotData
+                  .map(
+                    (d) => Marker(
+                      point: LatLng(d.latitude, d.longitude),
+                      child: const Icon(Icons.location_on, color: Colors.red),
+                      width: 40,
+                      height: 40,
+                    ),
+                  )
+                  .toList(),
             );
           },
         ),

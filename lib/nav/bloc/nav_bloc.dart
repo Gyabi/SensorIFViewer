@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-abstract class NaviEvent{}
+abstract class NaviEvent {}
 
 class SwitchPage extends NaviEvent {
   final String route;

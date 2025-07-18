@@ -18,16 +18,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers:[
-        RepositoryProvider(create: (_) => SettingRepository(),),
-        RepositoryProvider(create: (_) => UdpReceiver(),)
+      providers: [
+        RepositoryProvider(create: (_) => SettingRepository()),
+        RepositoryProvider(create: (_) => UdpReceiver()),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => NavBloc()),
-          BlocProvider(create: (context) => SettingBloc(repository: context.read<SettingRepository>())),
-          BlocProvider(create: (context) => CoreBloc(repository: context.read<SettingRepository>(), udpReceiver: context.read<UdpReceiver>())),
-          BlocProvider(create: (context) => MarkerBloc(udpReceiver: context.read<UdpReceiver>())),
+          BlocProvider(
+            create: (context) =>
+                SettingBloc(repository: context.read<SettingRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => CoreBloc(
+              repository: context.read<SettingRepository>(),
+              udpReceiver: context.read<UdpReceiver>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) =>
+                MarkerBloc(udpReceiver: context.read<UdpReceiver>()),
+          ),
         ],
         child: MaterialApp.router(
           routerConfig: router,
@@ -36,8 +47,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           ),
         ),
-      )
+      ),
     );
-    
   }
 }

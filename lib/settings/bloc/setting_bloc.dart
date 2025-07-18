@@ -19,7 +19,8 @@ class SettingState {
 
 class SettingBloc extends Bloc<SettingEvent, SettingState> {
   final SettingRepository repository;
-  SettingBloc({required this.repository}) : super(SettingState(setting: SettingItem(port: 0))) {
+  SettingBloc({required this.repository})
+    : super(SettingState(setting: SettingItem(port: 0))) {
     on<UpdateSetting>((event, emit) async {
       await repository.saveSetting(event.newItem);
       emit(SettingState(setting: event.newItem, loaded: true));

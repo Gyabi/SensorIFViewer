@@ -8,7 +8,6 @@ class NavPage extends StatelessWidget {
   final Widget child;
 
   const NavPage({super.key, required this.title, required this.child});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +25,9 @@ class NavPage extends StatelessWidget {
             onPressed: () {
               final nextRoute = isCore ? '/settings' : '/core';
               context.read<NavBloc>().add(SwitchPage(nextRoute));
-              
+
               context.go(nextRoute);
-            },  
+            },
             child: Icon(isCore ? Icons.settings : Icons.map),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,

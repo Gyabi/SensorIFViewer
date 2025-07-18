@@ -8,11 +8,12 @@ final router = GoRouter(
   initialLocation: '/core',
   routes: [
     ShellRoute(
-      builder: (context, state, child) => NavPage(title: 'Sensor IF Viewer', child: child),
+      builder: (context, state, child) =>
+          NavPage(title: 'Sensor IF Viewer', child: child),
       routes: [
         GoRoute(path: '/core', builder: (_, __) => CorePage()),
         GoRoute(path: '/settings', builder: (_, __) => SettingPage()),
-      ]
-    )
-  ]
+      ],
+    ),
+  ],
 );
