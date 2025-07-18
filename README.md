@@ -21,3 +21,9 @@
       - 角度
       - トラッキングステータス
     - 監視範囲
+
+## Generate protobuf code
+```
+flutter pub global activate protoc_plugin
+protoc --dart_out=./lib/message -I protobuf protobuf/cool4_sensor_interface_specification_v1.1.0.proto
+```

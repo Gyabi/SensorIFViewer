@@ -38,6 +38,10 @@ dependencies:
   flutter_bloc: ^9.1.1
   logger: ^2.6.0
   shared_preferences: ^2.5.3
+  flutter_map: ^8.2.1
+  protobuf: ^4.1.1
+  crc: ^0.0.2
+  archive: ^4.0.7
 
 dev_dependencies:
   flutter_test:
