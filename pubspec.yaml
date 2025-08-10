@@ -2,7 +2,7 @@ name: sensor_if_viewer
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -42,6 +42,11 @@ dependencies:
   protobuf: ^4.1.1
   crc: ^0.0.2
   archive: ^4.0.7
+  equatable: ^2.0.7
+  bloc_test: ^10.0.0
+  mocktail: ^1.0.4
+  common:
+    path: ./common
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +64,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
